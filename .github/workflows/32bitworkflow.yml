@@ -64,15 +64,18 @@ jobs:
       - name: Update rust
         run: rustup update --no-self-update
 
+      - name: Change Rust toolchains into 32 bit ones
+        run: rustup target add i686-pc-windows-msvc
+
       - name: Fetch dependencies
         run: cargo fetch --locked
 
       - name: Build
-        run: cargo build --frozen --profile release-lto
+        run: cargo build --frozen --profile release-lto --target i686-pc-windows-msvc
 
       - name: Crate msi installer
         run: |
-          candle.exe -arch "x64" -ext WixUIExtension -ext WixUtilExtension \
+          candle.exe -arch "x86" -ext WixUIExtension -ext WixUtilExtension \
             -out "./lapce.wixobj" "extra/windows/wix/lapce.wxs"
 
           light.exe -ext WixUIExtension -ext WixUtilExtension \
