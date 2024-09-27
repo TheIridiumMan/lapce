@@ -1,4 +1,4 @@
-me: Release
+name: 32 Bit Release
 
 on:
   schedule:
